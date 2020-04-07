@@ -2,12 +2,17 @@ package com.jarvis.ppm.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Project {
@@ -15,13 +20,28 @@ public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotBlank(message = "Project Name is required")
 	private String projectName;
+
+	@NotBlank(message = "Project Identifier is required")
+	@Size(min = 4, max = 5, message = "Please use 4 or 5 character")
+	@Column(updatable = false, unique = true)
 	private String projectIdentifier; // custom identifier for project object
+
+	@NotBlank(message = "Project Description is required")
 	private String description;
 
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date start_date;
+
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date end_date;
+
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date creatdAt;
+
+	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date updatedAt;
 
 	public Project() {
