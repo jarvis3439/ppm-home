@@ -39,7 +39,7 @@ public class Project {
 	private Date end_date;
 
 	@JsonFormat(pattern = "yyyy-mm-dd")
-	private Date creatdAt;
+	private Date createdAt;
 
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date updatedAt;
@@ -96,12 +96,12 @@ public class Project {
 		this.end_date = end_date;
 	}
 
-	public Date getCreatdAt() {
-		return creatdAt;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreatdAt(Date creatdAt) {
-		this.creatdAt = creatdAt;
+	public void setCreatedAt(Date creatdAt) {
+		this.createdAt = creatdAt;
 	}
 
 	public Date getUpdatedAt() {
@@ -114,7 +114,7 @@ public class Project {
 
 	@PrePersist
 	protected void onCreate() {
-		this.creatdAt = new Date();
+		this.createdAt = new Date();
 	}
 
 	@PreUpdate

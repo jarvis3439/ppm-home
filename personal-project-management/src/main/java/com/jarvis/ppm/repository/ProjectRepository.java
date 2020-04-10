@@ -8,4 +8,6 @@ import com.jarvis.ppm.model.Project;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+	public Project findByProjectIdentifier(String projectIdentifier);
+
 }
