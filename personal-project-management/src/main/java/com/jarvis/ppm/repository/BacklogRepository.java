@@ -8,4 +8,5 @@ import com.jarvis.ppm.model.Backlog;
 @Repository
 public interface BacklogRepository extends JpaRepository<Backlog, Long> {
 
+	Backlog findByProjectIdentifier(String identifier);
 }

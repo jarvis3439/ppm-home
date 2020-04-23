@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jarvis.ppm.exception.ProjectIdException;
+import com.jarvis.ppm.model.Backlog;
 import com.jarvis.ppm.model.Project;
+import com.jarvis.ppm.repository.BacklogRepository;
 import com.jarvis.ppm.repository.ProjectRepository;
 
 @Service
@@ -14,11 +16,26 @@ public class ProjectService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private BacklogRepository backlogRepository;
 
 	// save or update project
 	public Project saveOrUpdateProject(Project project) {
+		String identifier = project.getProjectIdentifier().toUpperCase();
 		try {
-			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+			project.setProjectIdentifier(identifier);
+
+			// Setup backlog for project
+			if (project.getId() == null) {
+				Backlog backlog = new Backlog();
+				project.setBacklog(backlog);
+				backlog.setProject(project);
+				backlog.setProjectIdentifier(identifier);
+			} else {
+				project.setBacklog(backlogRepository.findByProjectIdentifier(identifier));
+			}
+
 			return projectRepository.save(project);
 		} catch (Exception e) {
 			throw new ProjectIdException(
