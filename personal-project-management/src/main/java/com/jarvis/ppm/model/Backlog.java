@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Backlog class used to couple ProjectTask list with Project. 
  * So we have to call Backlog object who contain the ProjectTask.
  * This make loading of Project object more efficient when we only need to load 
- * to Project information not everything that associated with it.
+ * to Project information not everything that associated with it like Project Tasks.
  */
 
 @Entity
