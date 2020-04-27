@@ -11,4 +11,5 @@ import com.jarvis.ppm.model.ProjectTask;
 public interface ProjectTaskRepository extends JpaRepository<ProjectTask, Long> {
 	
 	List<ProjectTask> findByProjectIdentifierOrderByPriority(String id);
+	ProjectTask findByProjectSequence(String projectSequence);
 }
