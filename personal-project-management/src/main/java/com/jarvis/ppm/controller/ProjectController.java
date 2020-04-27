@@ -34,20 +34,18 @@ public class ProjectController {
 
 	@PostMapping("")
 	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
-
 		ResponseEntity<?> error = errorValidationService.validationService(result);
 		if (error != null) {
 			return error;
 		}
 
 		projectService.saveOrUpdateProject(project);
-		System.out.println("Project Created Successfully");
 		return new ResponseEntity<Project>(project, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/{projectIdentifer}")
-	public ResponseEntity<?> getProjectByIdentifer(@PathVariable String projectIdentifer) {
-		Project project = projectService.findProjectByIdentifier(projectIdentifer);
+	@GetMapping("/{projectIdentifier}")
+	public ResponseEntity<?> getProjectByIdentifier(@PathVariable String projectIdentifier) {
+		Project project = projectService.findProjectByIdentifier(projectIdentifier);
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 
@@ -59,6 +57,7 @@ public class ProjectController {
 	@DeleteMapping("/{projectIdentifier}")
 	public ResponseEntity<?> deleteProject(@PathVariable String projectIdentifier) {
 		projectService.deleteProjectByIdentifier(projectIdentifier);
-		return new ResponseEntity<String>("Project with Identifier '" + projectIdentifier.toUpperCase() + "' was deleted", HttpStatus.OK);
+		return new ResponseEntity<String>(
+				"Project with Identifier '" + projectIdentifier.toUpperCase() + "' was deleted", HttpStatus.OK);
 	}
 }

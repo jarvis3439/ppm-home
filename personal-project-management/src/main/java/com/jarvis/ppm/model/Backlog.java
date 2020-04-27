@@ -44,7 +44,7 @@ public class Backlog {
 	 * OneToMany with project tasks One backlog can have one or many project task
 	 * Backlog (One) = (ProjectTask >= 1)
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "backlog")
+	@OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "backlog", orphanRemoval = true)
 	private List<ProjectTask> projectTasks = new ArrayList<>();
 
 	public Backlog() {

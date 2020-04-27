@@ -16,11 +16,11 @@ public class ProjectService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
-	
+
 	@Autowired
 	private BacklogRepository backlogRepository;
 
-	// save or update project
+	// Save or Update project
 	public Project saveOrUpdateProject(Project project) {
 		String identifier = project.getProjectIdentifier().toUpperCase();
 		try {
@@ -35,15 +35,13 @@ public class ProjectService {
 			} else {
 				project.setBacklog(backlogRepository.findByProjectIdentifier(identifier));
 			}
-
 			return projectRepository.save(project);
 		} catch (Exception e) {
-			throw new ProjectIdException(
-					"Project Identifier '" + project.getProjectIdentifier().toUpperCase() + "' already exist");
+			throw new ProjectIdException("Project Identifier '" + identifier + "' already exist");
 		}
 	}
 
-	// find project by projectIdentifer
+	// find project by projectIdentifier
 	public Project findProjectByIdentifier(String projectIdentifier) {
 		Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
 		if (project == null) {
@@ -52,7 +50,7 @@ public class ProjectService {
 		return project;
 	}
 
-	// find all project
+	// find all projects
 	public List<Project> findAllProjects() {
 		return projectRepository.findAll();
 	}
@@ -61,7 +59,7 @@ public class ProjectService {
 	public void deleteProjectByIdentifier(String projectIdentifier) {
 		Project project = projectRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
 		if (project == null) {
-			throw new ProjectIdException("Project Identifier '" + projectIdentifier + "' doesn't exist");
+			throw new ProjectIdException("Project Identifier '" + projectIdentifier.toUpperCase() + "' doesn't exist");
 		}
 		projectRepository.delete(project);
 	}
