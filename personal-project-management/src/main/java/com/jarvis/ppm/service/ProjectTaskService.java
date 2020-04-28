@@ -42,7 +42,7 @@ public class ProjectTaskService {
 			projectTask.setProjectSequence(identifier + "-" + projectTaskSequence);
 			projectTask.setProjectIdentifier(identifier);
 			// Set initial priority
-			if (projectTask.getPriority() == null) {
+			if (projectTask.getPriority() == null || projectTask.getPriority() == 0) {
 				projectTask.setPriority(3); // 3- Low, 2- Medium, 1- High
 			}
 			// Set initial status
