@@ -26,7 +26,7 @@ public class ProjectTask {
 	@Column(updatable = false)
 	private String projectSequence; // projectIdentifier + PTSequence
 
-	@NotBlank(message = "Please include project summary")
+	@NotBlank(message = "Please include project task summary")
 	private String summary; // header of the projectTask
 
 	private String acceptanceCriteria;
