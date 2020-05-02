@@ -38,8 +38,12 @@ export const getProject = (id, history) => async (dispatch) => {
 };
 
 export const deleteProject = (id) => async (dispatch) => {
-  if (window.confirm("This will delete your entire project and related data")) {
-    await axios.delete(`http://localhost:8080/project/${id}`);
+  if (
+    window.confirm(
+      `You are deleting "${id}" project. It will also delete all the tasks related to it.`
+    )
+  ) {
+    await axios.delete(`/project/${id}`);
     dispatch({
       type: DELETE_PROJECT,
       payload: id,
