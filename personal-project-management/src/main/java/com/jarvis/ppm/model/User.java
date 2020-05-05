@@ -1,5 +1,6 @@
 package com.jarvis.ppm.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,8 +15,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +30,13 @@ public class User {
 	@Email(message = "Username needs to be an email")
 	@NotBlank(message = "Username is required")
 	@Column(unique = true)
-	@Size(max = 30, min = 5, message = "Use proper email address")
 	private String username;
 
 	@NotBlank(message = "Please Enter your full name")
 	private String fullName;
 
 	@NotBlank(message = "Password fill is required")
+	@Size(min = 6, message = "Password must be atleast 6 characters")
 	private String password;
 
 	@Transient
@@ -38,7 +44,7 @@ public class User {
 
 	private Date created_At;
 	private Date updated_At;
-	
+
 	// OneToMany with Project
 
 	public User() {
@@ -111,4 +117,37 @@ public class User {
 		this.updated_At = new Date();
 	}
 
+	/*
+	 * UserDetails Methods
+	 */
+
+	@Override
+	@JsonIgnore
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return null;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isEnabled() {
+		return true;
+	}
 }
