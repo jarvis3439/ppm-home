@@ -25,20 +25,17 @@ public class UserController {
 
 	@Autowired
 	private ErrorValidationService errorValidationService;
-	
+
 	@Autowired
 	private UserValidator userValidator;
-
 
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
 		userValidator.validate(user, result);
 		ResponseEntity<?> errorMap = errorValidationService.validationService(result);
-		
 		if (errorMap != null) {
 			return errorMap;
 		}
-		
 		User newUser = userService.saveUser(user);
 		return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
 	}
