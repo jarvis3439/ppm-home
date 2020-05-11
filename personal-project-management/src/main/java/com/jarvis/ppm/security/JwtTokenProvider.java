@@ -11,8 +11,13 @@ import static com.jarvis.ppm.security.SecurityConstraints.EXPIRATION_TIME;
 import static com.jarvis.ppm.security.SecurityConstraints.SECRET_KEY;
 import com.jarvis.ppm.model.User;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtTokenProvider {
@@ -34,6 +39,30 @@ public class JwtTokenProvider {
 	}
 
 	// Validate the token
+	public boolean validateToken(String token) {
+		try {
+			Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+			return true;
+		} catch (SignatureException ex) {
+			System.out.println("Invalid JWT Signature ");
+		} catch (MalformedJwtException ex) {
+			System.out.println("Invalid JWT token");
+		} catch (ExpiredJwtException ex) {
+			System.out.println("Expired JWT token");
+		} catch (UnsupportedJwtException ex) {
+			System.out.println("Unsupported JWT token");
+		} catch (IllegalArgumentException ex) {
+			System.out.println("JWT claims string is empty");
+		}
+		return false;
+	}
 
 	// Get user Id from the token
+	public Long getUserIdFromJWT(String token) {
+		Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+
+		String id = (String) claims.get("id");
+
+		return Long.parseLong(id);
+	}
 }
