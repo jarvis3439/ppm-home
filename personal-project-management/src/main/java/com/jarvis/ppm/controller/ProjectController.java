@@ -1,5 +1,6 @@
 package com.jarvis.ppm.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -33,30 +34,30 @@ public class ProjectController {
 	private ErrorValidationService errorValidationService;
 
 	@PostMapping("")
-	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+	public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal) {
 		ResponseEntity<?> error = errorValidationService.validationService(result);
 		if (error != null) {
 			return error;
 		}
 
-		projectService.saveOrUpdateProject(project);
+		projectService.saveOrUpdateProject(project, principal.getName());
 		return new ResponseEntity<Project>(project, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{projectIdentifier}")
-	public ResponseEntity<?> getProjectByIdentifier(@PathVariable String projectIdentifier) {
-		Project project = projectService.findProjectByIdentifier(projectIdentifier);
+	public ResponseEntity<?> getProjectByIdentifier(@PathVariable String projectIdentifier, Principal principal) {
+		Project project = projectService.findProjectByIdentifier(projectIdentifier, principal.getName());
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 
 	@GetMapping("/all")
-	public List<Project> getAllProjects() {
-		return projectService.findAllProjects();
+	public List<Project> getAllProjects(Principal principal) {
+		return projectService.findAllProjects(principal.getName());
 	}
 
 	@DeleteMapping("/{projectIdentifier}")
-	public ResponseEntity<?> deleteProject(@PathVariable String projectIdentifier) {
-		projectService.deleteProjectByIdentifier(projectIdentifier);
+	public ResponseEntity<?> deleteProject(@PathVariable String projectIdentifier, Principal principal) {
+		projectService.deleteProjectByIdentifier(projectIdentifier, principal.getName());
 		return new ResponseEntity<String>(
 				"Project with Identifier '" + projectIdentifier.toUpperCase() + "' was deleted", HttpStatus.OK);
 	}
