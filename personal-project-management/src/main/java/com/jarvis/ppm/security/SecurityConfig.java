@@ -17,14 +17,9 @@ import static com.jarvis.ppm.security.SecurityConstraints.SIGN_UP_URL;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-			securedEnabled = true,
-			jsr250Enabled = true,
-			prePostEnabled = true
-		)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Autowired
 	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -39,14 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		authenticationManagerBuilder.userDetailsService(customeUserDetailsService)
 				.passwordEncoder(bCryptPasswordEncoder);
 	}
-	
+
 	@Override
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 	protected AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
 	}
-
-
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

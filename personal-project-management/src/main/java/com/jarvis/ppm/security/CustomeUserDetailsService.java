@@ -24,7 +24,7 @@ public class CustomeUserDetailsService implements UserDetailsService {
 		}
 		return user;
 	}
-	
+
 	@Transactional
 	public User loadUserById(Long id) {
 		User user = userRepository.getById(id);
@@ -34,4 +34,3 @@ public class CustomeUserDetailsService implements UserDetailsService {
 		return user;
 	}
 }
-	
