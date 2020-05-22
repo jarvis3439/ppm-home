@@ -29,13 +29,23 @@ public class ProjectService {
 	// Save or Update project
 	public Project saveOrUpdateProject(Project project, String username) {
 		String identifier = project.getProjectIdentifier().toUpperCase();
+
+		if (project.getId() != null) {
+			Project existingProject = projectRepository.findByProjectIdentifier(identifier);
+			if (existingProject != null && (!project.getProjectLeader().equals(username))) {
+				throw new ProjectNotFoundException("Project Doesn't belong to your account");
+			} else if(existingProject == null) {
+				throw new ProjectNotFoundException("Project cannot be updated because it doesn't exist");
+			}
+		}
+
 		try {
 			User user = userRepository.findByUsername(username);
 			project.setUser(user);
 			project.setProjectLeader(user.getUsername());
 			project.setProjectIdentifier(identifier);
 
-			// Setup backlog for project
+			// Setup backlog for new project
 			if (project.getId() == null) {
 				Backlog backlog = new Backlog();
 				project.setBacklog(backlog);
