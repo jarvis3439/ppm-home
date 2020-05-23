@@ -44,3 +44,12 @@ export const userLogin = (LoginRequest) => async (dispatch) => {
     });
   }
 };
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("jwtToken");
+  setJwtToken(false);
+  dispatch({
+    type: SET_CURRENT_USER,
+    payload: {},
+  });
+};
