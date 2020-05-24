@@ -8,15 +8,14 @@ const middleWare = [thunk];
 
 let store;
 
-if (window.navigator.userAgent.includes("Firefox")) {
+const ReactReduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+if (window.navigator.userAgent.includes("Firefox") && ReactReduxDevTools) {
   store = createStore(
     rootReducer,
     initialState,
-    compose(
-      applyMiddleware(...middleWare),
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
+    compose(applyMiddleware(...middleWare), ReactReduxDevTools)
   );
 } else {
   store = createStore(

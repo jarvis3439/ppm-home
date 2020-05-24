@@ -32,7 +32,7 @@ public class ProjectService {
 
 		if (project.getId() != null) {
 			Project existingProject = projectRepository.findByProjectIdentifier(identifier);
-			if (existingProject != null && (!project.getProjectLeader().equals(username))) {
+			if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
 				throw new ProjectNotFoundException("Project Doesn't belong to your account");
 			} else if(existingProject == null) {
 				throw new ProjectNotFoundException("Project cannot be updated because it doesn't exist");
